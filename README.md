@@ -87,6 +87,10 @@ jupyter notebook ironman_70_3_analysis.ipynb
 
 This project is for educational and personal analysis purposes.
 
+## 📦 Data Source
+
+The dataset used in this analysis is the [Ironman 70.3 Races 2004–2020](https://www.kaggle.com/datasets/aiaiaidavid/ironman-703-race-data-between-2004-and-2020) dataset from Kaggle, containing 823,000+ finisher records across 197 events with split times, age groups, countries, and event details.
+
 ---
 
 *Built with 🏅 by [amynic](https://github.com/amynic)*
