@@ -183,6 +183,83 @@
         footer a { color: var(--accent2); text-decoration: none; }
         footer a:hover { text-decoration: underline; }
 
+        /* Year breakdown */
+        .year-breakdown {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 3rem 2rem;
+        }
+        .year-breakdown .inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .year-breakdown h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        .year-breakdown .intro {
+            color: var(--muted);
+            text-align: center;
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .year-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+            height: 200px;
+            padding: 0 0.5rem;
+        }
+        .year-bar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            height: 100%;
+            position: relative;
+        }
+        .year-bar .bar {
+            width: 100%;
+            background: linear-gradient(180deg, var(--accent) 0%, #a8253180 100%);
+            border-radius: 4px 4px 0 0;
+            min-height: 3px;
+            transition: opacity 0.2s;
+        }
+        .year-bar:hover .bar { opacity: 0.8; }
+        .year-bar .bar.covid {
+            background: linear-gradient(180deg, var(--muted) 0%, #555 100%);
+        }
+        .year-bar .count {
+            font-size: 0.65rem;
+            color: var(--muted);
+            margin-bottom: 4px;
+            white-space: nowrap;
+        }
+        .year-bar .year-label {
+            font-size: 0.65rem;
+            color: var(--muted);
+            margin-top: 6px;
+            transform: rotate(-45deg);
+            white-space: nowrap;
+        }
+        .year-breakdown .avg-line {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+        .year-breakdown .avg-line strong {
+            color: var(--accent);
+            font-size: 1rem;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 { font-size: 1.8rem; }
@@ -191,6 +268,9 @@
             .stat-item .value { font-size: 1.2rem; }
             .findings ul { grid-template-columns: 1fr; }
             .container { padding: 0 1rem; }
+            .year-bars { gap: 3px; height: 150px; }
+            .year-bar .count { font-size: 0.55rem; }
+            .year-bar .year-label { font-size: 0.55rem; }
         }
     </style>
 </head>
@@ -224,6 +304,34 @@
         </div>
     </div>
 </header>
+
+<!-- Year-by-Year Breakdown -->
+<div class="year-breakdown">
+    <div class="inner">
+        <h2>How Few Take On The Challenge</h2>
+        <p class="intro">Out of billions of people on the planet, only a tiny fraction line up to swim 1.9km, bike 90km, and run 21.1km in a single day. Here's how many crossed the finish line each year.</p>
+        <div class="year-bars">
+            <div class="year-bar"><span class="count">1.6K</span><div class="bar" style="height: 1.4%;"></div><span class="year-label">2004</span></div>
+            <div class="year-bar"><span class="count">3.4K</span><div class="bar" style="height: 2.9%;"></div><span class="year-label">2005</span></div>
+            <div class="year-bar"><span class="count">6.2K</span><div class="bar" style="height: 5.3%;"></div><span class="year-label">2006</span></div>
+            <div class="year-bar"><span class="count">7.0K</span><div class="bar" style="height: 6.0%;"></div><span class="year-label">2007</span></div>
+            <div class="year-bar"><span class="count">8.8K</span><div class="bar" style="height: 7.6%;"></div><span class="year-label">2008</span></div>
+            <div class="year-bar"><span class="count">17.3K</span><div class="bar" style="height: 14.8%;"></div><span class="year-label">2009</span></div>
+            <div class="year-bar"><span class="count">34.4K</span><div class="bar" style="height: 29.6%;"></div><span class="year-label">2010</span></div>
+            <div class="year-bar"><span class="count">42.0K</span><div class="bar" style="height: 36.1%;"></div><span class="year-label">2011</span></div>
+            <div class="year-bar"><span class="count">55.7K</span><div class="bar" style="height: 48.0%;"></div><span class="year-label">2012</span></div>
+            <div class="year-bar"><span class="count">61.7K</span><div class="bar" style="height: 53.1%;"></div><span class="year-label">2013</span></div>
+            <div class="year-bar"><span class="count">80.1K</span><div class="bar" style="height: 68.9%;"></div><span class="year-label">2014</span></div>
+            <div class="year-bar"><span class="count">94.6K</span><div class="bar" style="height: 81.4%;"></div><span class="year-label">2015</span></div>
+            <div class="year-bar"><span class="count">93.9K</span><div class="bar" style="height: 80.8%;"></div><span class="year-label">2016</span></div>
+            <div class="year-bar"><span class="count">100.2K</span><div class="bar" style="height: 86.3%;"></div><span class="year-label">2017</span></div>
+            <div class="year-bar"><span class="count">105.2K</span><div class="bar" style="height: 90.5%;"></div><span class="year-label">2018</span></div>
+            <div class="year-bar"><span class="count">116.2K</span><div class="bar" style="height: 100%;"></div><span class="year-label">2019</span></div>
+            <div class="year-bar"><span class="count">11.8K</span><div class="bar covid" style="height: 10.2%;"></div><span class="year-label">2020</span></div>
+        </div>
+        <p class="avg-line">Average: <strong>~49,400</strong> finishers per year &nbsp;·&nbsp; Peak: <strong>116,196</strong> in 2019 &nbsp;·&nbsp; 2020 COVID impact: <strong>↓ 90%</strong></p>
+    </div>
+</div>
 
 <main class="container">
 
