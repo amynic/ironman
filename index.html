@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRONMAN 70.3 Analysis — 840,000 Race Results (2004–2020)</title>
+    <style>
+        :root {
+            --bg: #0f1117;
+            --surface: #1a1d27;
+            --card: #222637;
+            --accent: #e63946;
+            --accent2: #457b9d;
+            --text: #edf2f4;
+            --muted: #8d99ae;
+            --border: #2a2e3d;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #1a1d27 0%, #0f1117 50%, #1a1d27 100%);
+            border-bottom: 2px solid var(--accent);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+        }
+        .hero h1 span { color: var(--accent); }
+        .hero .subtitle {
+            color: var(--muted);
+            font-size: 1.15rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Stats banner */
+        .stats-banner {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        .stat-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            min-width: 150px;
+            text-align: center;
+        }
+        .stat-item .value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .stat-item .label {
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Section */
+        section {
+            padding: 3rem 0;
+        }
+        section + section {
+            border-top: 1px solid var(--border);
+        }
+        .section-header {
+            margin-bottom: 2rem;
+        }
+        .section-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        .section-header h2::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 1.4rem;
+            background: var(--accent);
+            margin-right: 0.75rem;
+            vertical-align: middle;
+            border-radius: 2px;
+        }
+        .section-header .section-num {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Chart blocks */
+        .chart-block {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        .chart-block img {
+            width: 100%;
+            display: block;
+        }
+        .chart-commentary {
+            padding: 1.25rem 1.5rem;
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.65;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Callout */
+        .callout {
+            background: rgba(230, 57, 70, 0.08);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 8px 8px 0;
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+        .callout strong { color: var(--text); }
+
+        /* Key findings */
+        .findings {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 1rem;
+        }
+        .findings ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .findings li {
+            padding: 0.75rem 1rem;
+            background: var(--card);
+            border-radius: 10px;
+            font-size: 0.92rem;
+            line-height: 1.5;
+            border: 1px solid var(--border);
+        }
+        .findings li strong {
+            color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--muted);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border);
+        }
+        footer a { color: var(--accent2); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 1.8rem; }
+            .stats-banner { gap: 0.75rem; }
+            .stat-item { min-width: 120px; padding: 0.75rem 1rem; }
+            .stat-item .value { font-size: 1.2rem; }
+            .findings ul { grid-template-columns: 1fr; }
+            .container { padding: 0 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hero -->
+<header class="hero">
+    <h1>IRONMAN <span>70.3</span> Analysis</h1>
+    <p class="subtitle">Exploring 840,000 race results across 195 events and 240 countries (2004–2020)</p>
+    <div class="stats-banner">
+        <div class="stat-item">
+            <div class="value">840K</div>
+            <div class="label">Finishers</div>
+        </div>
+        <div class="stat-item">
+            <div class="value">5h 47m</div>
+            <div class="label">Median Finish</div>
+        </div>
+        <div class="stat-item">
+            <div class="value">195</div>
+            <div class="label">Races</div>
+        </div>
+        <div class="stat-item">
+            <div class="value">240</div>
+            <div class="label">Countries</div>
+        </div>
+        <div class="stat-item">
+            <div class="value">3h 36m</div>
+            <div class="label">Fastest Finish</div>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- Section 1: Performance Trends -->
+    <section>
+        <div class="section-header">
+            <div class="section-num">Section 01</div>
+            <h2>Performance Trends Over Time</h2>
+        </div>
+
+        <div class="chart-block">
+            <img src="analysis_output/02_participation_growth.png" alt="Participation growth over time">
+            <div class="chart-commentary">
+                From under 1,000 finishers in the early 2000s, the sport grew to over 116,000 finishers across 60+ races by 2019. Race count and finisher numbers track together closely, suggesting growth has been supply-driven as much as demand-driven — more events created more finishers. The 2020 COVID-19 pandemic caused a near-total collapse, with finisher count falling ~90% to roughly 11,800.
+            </div>
+        </div>
+
+        <div class="chart-block">
+            <img src="analysis_output/01_finish_time_by_year_gender.png" alt="Finish time by year and gender">
+            <div class="chart-commentary">
+                Despite the sport more than doubling in size over this period, the overall median finish time barely moved — hovering around 5h 45m–5h 50m throughout. This stability suggests that as participation grew it attracted athletes across the full spectrum of ability, keeping the median anchored rather than drifting faster or slower.
+            </div>
+        </div>
+
+        <div class="callout">
+            <strong>Why median?</strong> Finish times are right-skewed — a small number of very slow finishers pull the mean up, making it unrepresentative of a typical athlete. Median is robust to these outliers and stays consistent with the percentile-band analysis.
+        </div>
+
+        <div class="chart-block">
+            <img src="analysis_output/04_finish_time_spread_by_year.png" alt="Finish time spread by year">
+            <div class="chart-commentary">
+                The interquartile range — roughly 1 hour wide — has remained stable across the entire dataset, showing that the spread of the field hasn't changed despite explosive participation growth. Both the fast and the slow ends of the distribution moved in lockstep with the median, suggesting the sport has consistently attracted a similar mix of competitive and participation-focused athletes each year.
+            </div>
+        </div>
+
+        <div class="chart-block">
+            <img src="analysis_output/15_gender_participation.png" alt="Gender participation trends">
+            <div class="chart-commentary">
+                Both genders show virtually flat median times across the full period, reinforcing that the sport's growth drew in athletes of all abilities. The gender gap — around 28–32 minutes — is consistent throughout, pointing to a stable physiological differential rather than any closing or widening trend over time.
+            </div>
+        </div>
+
+        <div class="chart-block">
+            <img src="analysis_output/03_split_times_by_year.png" alt="Split times by year">
+            <div class="chart-commentary">
+                Swim and bike times are remarkably flat across the period. The run shows a marginal upward trend (slower), which may reflect the sport's growth drawing in athletes who are stronger swimmers or cyclists but less running-focused. All three disciplines dip noticeably in 2020, likely because the small number of races held that year attracted a disproportionate share of competitive, experienced athletes.
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Age Group Analysis -->
+    <section>
+        <div class="section-header">
+            <div class="section-num">Section 02</div>
+            <h2>Age Group Analysis</h2>
+        </div>
+
+        <div class="chart-block">
+            <img src="analysis_output/08_finish_time_by_age_group.png" alt="Finish time by age group">
+            <div class="chart-commentary">
+                The 25–34 age bands post the tightest distributions and fastest medians for both genders. Performance degrades gradually through the 40s and then more steeply from 55 onwards. Women's medians sit consistently 25–35 minutes above men's across all age groups, but the shape of the curve is nearly identical — age affects both genders in the same way.
+            </div>
+        </div>
+
+        <div class="chart-block">
+            <img src="analysis_output/09_participation_by_age_group.png" alt="Participation by age group">
+            <div class="chart-commentary">
+                The 35–44 age band accounts for the largest share of finishers — a group with the disposable income and life structure to support training for a long-distance triathlon. Female participation is lower across every age group, with the ratio most balanced in the 25–34 range.
+            </div>
+        </div>
+
+        <div class="chart-block">
+            <img src="analysis_output/10_peak_performance_age.png" alt="Peak performance age">
+            <div class="chart-commentary">
+                Both men and women peak in the late 20s to early 30s. The decline through the 30s and 40s is notably gentle — athletes in their mid-40s are typically only 15–20 minutes slower than their peak — before performance drops more sharply after 55. This gradual ageing curve is one reason the sport attracts and retains a strong Masters demographic.
+            </div>
+        </div>
+
+        <div class="chart-block">
+            <img src="analysis_output/11_split_pct_by_age_group.png" alt="Split percentage by age group">
+            <div class="chart-commentary">
+                The bike leg consistently accounts for roughly 50% of total finish time across every age group, with swim at ~14% and run at ~25%. The run proportion increases slightly in older groups, suggesting running pace deteriorates faster with age than swimming or cycling. Transitions contribute a small but measurable ~2–3%, a reminder that T1/T2 efficiency is a real differentiator at all ages.
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Country Comparisons -->
+    <section>
+        <div class="section-header">
+            <div class="section-num">Section 03</div>
+            <h2>Country Comparisons</h2>
+        </div>
+
+        <div class="chart-block">
+            <img src="analysis_output/05_top_countries_participation.png" alt="Top countries by participation">
+            <div class="chart-commentary">
+                The USA contributes more finishers than the next several countries combined, reflecting both the sport's North American origins and the sheer density of IRONMAN events hosted there. Australia and Germany are distant second and third, followed by a cluster of European nations with strong triathlon cultures. The long tail of countries highlights the sport's increasingly global footprint.
+            </div>
+        </div>
+
+        <div class="chart-block">
+            <img src="analysis_output/06_fastest_countries.png" alt="Fastest countries">
+            <div class="chart-commentary">
+                European nations with deep triathlon and cycling cultures — Switzerland, Germany, Belgium — dominate the top of the speed leaderboard. The 250-finisher threshold filters out countries with tiny sample sizes, so these rankings reflect genuine population-level speed rather than a handful of elite athletes. Notably, high-participation countries like the USA sit further down, suggesting volume and speed don't necessarily go hand in hand.
+            </div>
+        </div>
+
+        <div class="chart-block">
+            <img src="analysis_output/07_fastest_countries_by_discipline.png" alt="Fastest countries by discipline">
+            <div class="chart-commentary">
+                Discipline leadership varies considerably across swim, bike, and run, revealing distinct national strengths. Countries that top the swim rankings don't always appear in the bike or run lists — pointing to different sporting traditions and training cultures. The bike leaderboard most closely mirrors the overall finish time ranking, consistent with the bike leg's ~50% share of total race time.
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Race & Course Comparisons -->
+    <section>
+        <div class="section-header">
+            <div class="section-num">Section 04</div>
+            <h2>Race &amp; Course Comparisons</h2>
+        </div>
+
+        <div class="chart-block">
+            <img src="analysis_output/14_largest_races.png" alt="Largest races by finisher count">
+            <div class="chart-commentary">
+                Volume reflects longevity as much as field size — events that have run for many years accumulate finishers across multiple editions. US races dominate the top, consistent with the country's participation numbers. Several World Championship qualifier venues appear here, drawing competitors from across the globe year after year.
+            </div>
+        </div>
+
+        <div class="chart-block">
+            <img src="analysis_output/12_fastest_courses.png" alt="Fastest courses">
+            <div class="chart-commentary">
+                Flat, low-elevation courses in mild climates dominate the fast end of the list. These races are typically prestigious qualifier events that attract more competitive, experienced athletes — which itself pulls the median down. Course selection is therefore one of the most reliable levers an athlete can pull to post a personal best.
+            </div>
+        </div>
+
+        <div class="chart-block">
+            <img src="analysis_output/13_slowest_courses.png" alt="Slowest courses">
+            <div class="chart-commentary">
+                Mountainous terrain and technically demanding courses push medians well above average — some exceed 6h 30m. A few of the slowest races are also newer or smaller events whose fields skew toward first-timers and participation-focused athletes rather than seasoned competitors. Course difficulty and field composition both contribute to slower medians.
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Findings -->
+    <section>
+        <div class="section-header">
+            <div class="section-num">Summary</div>
+            <h2>Key Findings</h2>
+        </div>
+
+        <div class="findings">
+            <ul>
+                <li><strong>Median finish time:</strong> 5h 47m overall — Male 5h 40m, Female 6h 09m</li>
+                <li><strong>Performance is stable</strong> across years — median times barely changed 2004–2019</li>
+                <li><strong>Peak age group:</strong> 18–24 has the fastest median, but performance holds well through 45–49</li>
+                <li><strong>US dominates</strong> participation with 332K finishers — 5.5× more than #2 Australia</li>
+                <li><strong>Female participation</strong> has grown steadily, reaching ~25% by 2019</li>
+                <li><strong>2020 COVID impact:</strong> only 11.8K finishers vs 116K in 2019</li>
+                <li><strong>Bike leg</strong> accounts for ~50% of total time — the biggest lever for improving overall finish time</li>
+                <li><strong>Course selection matters:</strong> the gap between fastest and slowest courses exceeds 1 hour</li>
+            </ul>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>Data: 840,057 IRONMAN 70.3 finisher records (2004–2020) · Analysis by <a href="https://github.com/amynic/ironman">amynic</a></p>
+</footer>
+
+</body>
+</html>
